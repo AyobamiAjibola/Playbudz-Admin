@@ -14,7 +14,9 @@ export default function LoginForm() {
   const [error, setError] = useState<Error>();
   const refreshUser = useAuthStore((state) => state.refreshUser)
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     setLoading(true)
 
     try {
