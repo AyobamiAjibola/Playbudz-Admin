@@ -28,6 +28,7 @@ export default function LoginForm() {
       await refreshUser();
 
       router.push("/dashboard");
+
     } catch (error) {
       const normalizedError =
         error instanceof Error

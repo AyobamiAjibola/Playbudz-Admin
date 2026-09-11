@@ -21,8 +21,33 @@ type IProps = {
   bgColor: string;
 }
 
+type WaitlistType = {
+  email?: string;
+  id: string;
+  name?: string;
+  sport?: string;
+}
+
+const RenderCard = ({title, total, bgColor}: IProps) => {
+  return (
+    <div
+      className="w-full min-h-50 rounded-4xl flex-col gap-4
+        shadow-sm flex justify-center items-center
+      "
+      style={{backgroundColor: bgColor}}
+    >
+      <span className="font-normal text-2xl">
+        {title}
+      </span>
+      <span className="font-bold text-4xl">
+        {total}
+      </span>
+    </div>
+  )
+}
+
 export default function Dashboard() {
-  const [waitlist, setWaitlist] = useState<any[]>([]);
+  const [waitlist, setWaitlist] = useState<WaitlistType[]>([]);
   const [date, setDate] = useState<string>("");
   const [wIsLoading, setWisLoading] = useState<boolean>(false);
 
@@ -96,28 +121,9 @@ export default function Dashboard() {
     }
   };
 
-  const RenderCard = ({title, total, bgColor}: IProps) => {
-    return (
-      <div
-        className="w-full min-h-50 rounded-4xl flex-col gap-4
-          shadow-sm flex justify-center items-center
-        "
-        style={{backgroundColor: bgColor}}
-      >
-        <span className="font-normal text-2xl">
-          {title}
-        </span>
-        <span className="font-bold text-4xl">
-          {total}
-        </span>
-      </div>
-    )
-  }
-
   useEffect(() => {
     const fetchWaitlist = async () => {
       const data = await getWaitlist();
-
       setWaitlist(data);
     };
 

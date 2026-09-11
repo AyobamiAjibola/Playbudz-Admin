@@ -13,11 +13,19 @@ export default function ProtectedLayout({
   const {user, isLoading} = useAuthStore((state) => state)
   const router = useRouter();
 
+  // useEffect(() => {
+  //   if (!isLoading && !user) {
+  //     router.replace("/login");
+  //   }
+  // }, [isLoading, user, router]);
+
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (isLoading) return;
+
+    if (!user) {
       router.replace("/login");
     }
-  }, [isLoading, user, router]);
+  }, [user, isLoading, router]);
 
   if (isLoading) {
     return (
