@@ -1,0 +1,57 @@
+
+import { useQuery } from "@tanstack/react-query";
+import { Game } from "../types/types";
+import { api } from "@/lib/api";
+
+interface EventParams {
+  page?: number;
+  limit?: number;
+  filter?: string; //saved
+  search?: string;
+  date?: string;
+  sport?: string;
+  status?: string; //upcoming | past
+}
+
+export const useEvents = ({
+  page = 1,
+  limit = 10,
+  search,
+  date,
+  sport,
+  filter,
+  status
+}: EventParams = {}) => {
+    const query = useQuery({
+        queryKey: [
+        "all-games",
+        { page, limit, search, date, sport, filter, status },
+        ],
+
+        queryFn: async () => {
+        const response = await api.get("/games/all-games", {
+            params: {
+            page,
+            limit,
+            search,
+            date,
+            sport,
+            filter, status
+            },
+        });
+
+        return response.data.data as { games: Game[], count: number };
+        },
+        staleTime: 1000 * 60 * 2, // Dont consider the data stale for 2min
+        //gcTime: // Keep unused cached data in memory for 30 minutes
+    });
+
+    return {
+        events: query.data ?? {games: [], count: 0},
+        isLoading: query.isLoading,
+        isFetching: query.isFetching,
+        isError: query.isError,
+        error: query.error,
+        refetch: query.refetch,
+    };
+};
