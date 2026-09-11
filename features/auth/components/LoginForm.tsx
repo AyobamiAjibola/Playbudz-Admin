@@ -45,10 +45,6 @@ export default function LoginForm() {
       onSubmit={handleLogin}
       className="w-full max-w-sm space-y-4"
     >
-      <h1 className="text-2xl font-bold">
-        Login
-      </h1>
-
       <input
         type="email"
         value={email}
